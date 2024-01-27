@@ -24,6 +24,7 @@ h1, h2 {
     margin-bottom: 20px;
     color: #61dafb;
     text-shadow: 1px 1px 2px black;
+    animation: fadeInUp 0.5s ease-in-out;
 }
 
 .stix-objects {
@@ -165,7 +166,7 @@ input[type='submit']:hover {
     position: relative;
     display: inline-block;
     width: calc(100% - 40px);
-    background-color: #ff9800;
+    background-color: #32353b;
     color: white;
     text-align: center;
     padding: 10px 20px;
@@ -183,17 +184,7 @@ input[type='submit']:hover {
     text-align: right;
 }
 
-.stix-visualizer-button {
-    background-color: #61dafb;
-    color: #282b30;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    border: none;
-    transition: box-shadow 0.3s ease;
-    box-shadow: 0 0 5px rgba(97, 218, 251, 0.5);
-    display: inline-block;
-}
+
 
 .stix-visualizer-button:hover {
     box-shadow: 0 0 15px rgba(97, 218, 251, 0.75);
