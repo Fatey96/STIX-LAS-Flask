@@ -1,5 +1,5 @@
 from faker import Faker
-from stix2 import ThreatActor, Identity, Malware, Tool, Indicator, AttackPattern, Campaign, IntrusionSet, Vulnerability
+from stix2 import ThreatActor, Identity, Malware, Tool, Indicator, AttackPattern, Campaign, IntrusionSet, Vulnerability, Location, CourseOfAction, MalwareAnalysis
 from datetime import datetime, timedelta
 import random
 import uuid
@@ -407,3 +407,111 @@ def create_tools(count):
         fake_tools.append(fake_tool)
 
     return fake_tools
+
+
+def create_course_of_actions(count):
+    actions = [
+        "Apply security patch",
+        "Update firewall rules",
+        "Conduct training on phishing awareness",
+        "Implement multi-factor authentication",
+        "Encrypt sensitive data at rest and in transit"
+    ]
+    descriptions = [
+        "This Course of Action involves {} to mitigate potential vulnerabilities.",
+        "The recommended action is {} to enhance security posture.",
+        "To prevent security breaches, {} is advised as a necessary Course of Action.",
+        "For improving organizational security, it is essential to {}."
+    ]
+
+    fake_courses_of_action = []
+    for _ in range(count):
+        action = random.choice(actions)
+        description_format = random.choice(descriptions)
+        name = f"CoA for {action.split(' ')[-1]}"
+
+        fake_course_of_action = CourseOfAction(
+            name= name,
+            description= description_format.format(action)
+        )
+
+        fake_courses_of_action.append(fake_course_of_action)
+
+    return fake_courses_of_action
+
+
+def create_locations(count):
+    regions = ["Americas", "Europe", "Asia", "Africa", "Oceania"]
+    countries = [fake.country_code(representation="alpha-2") for _ in range(count)]
+
+    fake_locations = []
+    for _ in range(count):
+        country = random.choice(countries)
+        city = fake.city()
+        street_address = fake.street_address()
+        postal_code = fake.postcode()
+        administrative_area = fake.state()
+        latitude = fake.latitude()
+        longitude = fake.longitude()
+        precision = random.uniform(5, 100)
+        region = random.choice(regions)
+        name = f"{city}, {country}"
+        description = f"Location in {city}, {country} at {street_address}, {postal_code}."
+
+        fake_location = Location(
+            name= name,
+            description= description,
+            latitude=float(latitude),
+            longitude= float(longitude),
+            precision= precision,
+            region=region,
+            country = country,
+            administrative_area = administrative_area,
+            city = city,
+            street_address=street_address,
+            postal_code = postal_code
+        )
+
+        fake_locations.append(fake_location)
+
+    return fake_locations
+
+
+def create_malware_analysis(count):
+    fake_malware_analyses = []
+    products = ["malwarelyzer", "anonymized", "threatscanner", "virusdigger", "bugsearch"]
+    results = ["clean", "malicious", "suspicious", "unknown"]
+    software = ["custom-toolkit", "exploit-scanner", "network-monitor"]
+
+    for _ in range(count):
+        now = datetime.now()
+        product_name = random.choice(products)
+        version = f"{random.randint(1, 5)}.{random.randint(0, 9)}"
+        submitted_date = now - timedelta(days=random.randint(1, 30))
+        analysis_started_date = submitted_date + timedelta(minutes=random.randint(1, 60))
+        analysis_ended_date = analysis_started_date + timedelta(minutes=random.randint(1, 60))
+        result_name = f"{fake.word()} malware"
+        result = random.choice(results)
+
+        fake_malware_analysis = MalwareAnalysis(
+            product= product_name,
+            version= version,
+            host_vm_ref= f"software--{uuid.uuid4()}",
+            operating_system_ref= f"software--{uuid.uuid4()}",
+            installed_software_refs= [f"software--{uuid.uuid4()}" for _ in range(random.randint(1, 3))],
+            configuration_version="default-config",
+            modules=random.sample(software, k=random.randint(1, len(software))),
+            analysis_engine_version= version,
+            analysis_definition_version= f"{random.randint(1, 100)}",
+            submitted= submitted_date.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            analysis_started= analysis_started_date.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            analysis_ended= analysis_ended_date.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            result_name= result_name,
+            result=result,
+            analysis_sco_refs= [f"file--{uuid.uuid4()}" for _ in range(random.randint(1, 5))],
+            sample_ref=f"file--{uuid.uuid4()}"
+        )
+
+        fake_malware_analyses.append(fake_malware_analysis)
+
+    return fake_malware_analyses

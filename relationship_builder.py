@@ -11,7 +11,10 @@ relationship_map = {
     "intrusion-set": {"campaign": ["part-of"], "threat-actor": ["attributed-to"]},
     "vulnerability": {"malware": ["exploits"]},
     "attack-pattern": {"malware": ["delivers"],"identity": ["targets"], "vulnerability": ["targets"],"tool": ["uses"] },
-    "tool": {"threat-actor": ["uses"], "malware": ["uses"]}
+    "tool": {"threat-actor": ["uses"], "malware": ["uses"]},
+    "course-of-action" : {"indicator" : ["investigates"],  "observed-data" : ["based-on"], "indicator" : ["mitigates"], "attack-pattern" : ["mitigates"], "malware" : ["remediates"], "vulnerability" : ["remediates"], "tool" : ["mitigates"]},
+    "location" : {"identity" : ["located-at"], "threat-actor" : ["located-at"], "campaign" : ["originates-from"], "malware" : ["originates-from"], "intrusion-set" : ["originates-from"], "attack-pattern" : ["targets"], "tool" : ["targets"], "campaign" : ["targets"], "intrusion-set" : ["targets"], "malware" : ["targets"], "threat-actor" : ["targets"]},
+    "malware-analysis" : {"malware" : ["characterizes"], "malware" : ["analysis-of"], "malware" : ["static-analysis-of"], "malware" : ["dynamic-analysis-of"]}
 }
 
 
